@@ -2,21 +2,21 @@ const { NotFoundError } = require("../../shared/errors");
 const User = require("./User");
 
 const showUser = async ({ id }) => {
-    const user = await User.findById(id)
-        .select("-password")
-        .populate({
-            path: "lists",
-            populate: {
-                path: "user",
-                select: "first_name",
-            },
-        });
+  const user = await User.findById(id)
+    .select("-password")
+    .populate({
+      path: "lists",
+      populate: {
+        path: "todo",
+        select: "name description",
+      },
+    });
 
-    if (!user) {
-        throw new NotFoundError("Foydalanuvchi topilmadi.");
-    }
+  if (!user) {
+    throw new NotFoundError("Foydalanuvchi topilmadi.");
+  }
 
-    return user;
+  return user;
 };
 
 module.exports = showUser;
